@@ -9,23 +9,15 @@ namespace Bemobi.Infra.Infra.Context
         {
         }
 
-        public DbSet<Domain.Entities.File> Files { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                //optionsBuilder.UseMySql(_configuration.GetSection("ConnectionString").Value););
-            }
-        }
+        public DbSet<Domain.Entities.Files> Files { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Domain.Entities.File>(entity =>
+            modelBuilder.Entity<Domain.Entities.Files>(entity =>
             {
                 entity.Property(e => e.FileName).IsRequired().HasColumnName("filename").HasMaxLength(255).IsUnicode(false);
                 entity.Property(e => e.FileSize).IsRequired().HasColumnName("filesize");
-                entity.Property(e => e.LastModified).HasColumnName("lastmodified").HasColumnType("datetime").HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.LastModified).HasColumnName("lastmodified").HasColumnType("datetime").HasDefaultValueSql("(now())");
             });
         }
     }

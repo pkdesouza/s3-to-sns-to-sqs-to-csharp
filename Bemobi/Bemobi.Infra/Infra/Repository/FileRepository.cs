@@ -1,4 +1,5 @@
-﻿using Bemobi.Domain.Interfaces;
+﻿using Bemobi.Domain.Entities;
+using Bemobi.Domain.Interfaces;
 using Bemobi.Infra.Infra.Context;
 
 namespace Bemobi.Infra.Infra.Repository
@@ -12,21 +13,39 @@ namespace Bemobi.Infra.Infra.Repository
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Domain.Entities.File> AddAsync(Domain.Entities.File entity)
+        public async Task<Files> AddAsync(Files entity)
         {
-            _context.Files.Add(entity);
+            await _context.Files.AddAsync(entity);
             return await SaveChangesAsync(entity);
         }
-        public async Task<Domain.Entities.File> UpdateAsync(Domain.Entities.File entity)
+
+        public async Task AddRangeAsync(List<Files> entityList)
+        {
+            await _context.Files.AddRangeAsync(entityList);
+            await SaveChangesAsync();
+        }
+
+        public async Task<Files> UpdateAsync(Files entity)
         {
             _context.Files.Update(entity);
             return await SaveChangesAsync(entity);
         }
 
-        private async Task<Domain.Entities.File> SaveChangesAsync(Domain.Entities.File entity)
+        public async Task UpdateRangeAsync(List<Files> entityList)
+        {
+            _context.Files.UpdateRange(entityList);
+            await SaveChangesAsync();
+        }
+
+        private async Task<Files> SaveChangesAsync(Files entity)
         {
             await _context.SaveChangesAsync();
             return entity;
+        }
+
+        private async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

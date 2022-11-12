@@ -1,5 +1,7 @@
-﻿using Bemobi.Domain.Events;
+﻿using Bemobi.Domain.Entities;
+using Bemobi.Domain.Events;
 using Bemobi.Domain.Interfaces;
+using System.Diagnostics;
 
 namespace Bemobi.Domain.Services
 {
@@ -7,6 +9,7 @@ namespace Bemobi.Domain.Services
     {
         private readonly IFileRepository _fileRepository;
         private readonly IFileReadRepository _fileReadRepository;
+        private Func<Files, string, bool> _getByKey = (file, key) => file.FileName == key;
         public S3EventDomainService(
             IFileRepository fileRepository,
             IFileReadRepository fileReadRepository)
@@ -17,12 +20,33 @@ namespace Bemobi.Domain.Services
 
         public async Task SaveNotificationOnPut(S3PutObjectEvent @event)
         {
-            var file = await _fileReadRepository.GetByFileNameAsync(@event?.Message?.Records?.FirstOrDefault()?.s3?.@object?.key ?? "");
+            var fileNameList = @event.GetFileNameList();
 
-            if (file is null)
-                await _fileRepository.UpdateAsync(new Entities.File(@event?.Message?.Records?.FirstOrDefault()?.s3?.@object?.key ?? "", Convert.ToInt64(@event?.Message?.Records?.FirstOrDefault()?.s3?.@object?.size), DateTime.Now));
-            else
-                await _fileRepository.UpdateAsync(file);
+            var fileList = await _fileReadRepository.GetByFileNameListAsync(fileNameList);
+            List<Files> updateList = new(), createList = new();
+
+            foreach (var record in @event.Message.Records)
+            {
+                var key = record.GetFileName();
+                if (fileList.Any(x => _getByKey(x, key)))
+                {
+                    var file = fileList.First(x => _getByKey(x, key));
+                    if (file.LastModified >= @event.Timestamp) {
+                        Debug.WriteLine($"The lastModified field is newer than the notification, so the record will not be updated.");
+                        continue;
+                    }
+                    updateList.Add(file);
+                    continue;
+                }
+                
+                createList.Add(new Files(record.GetFileName(), record.GetFileSize(), @event.Timestamp));
+            }
+
+            if (createList.Any())
+                await _fileRepository.AddRangeAsync(createList);
+
+            if (updateList.Any())
+                await _fileRepository.UpdateRangeAsync(updateList);
         }
     }
 }

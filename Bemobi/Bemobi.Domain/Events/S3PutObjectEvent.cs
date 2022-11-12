@@ -14,6 +14,10 @@ namespace Bemobi.Domain.Events
         public string SigningCertURL { get; set; }
         public string UnsubscribeURL { get; set; }
         public string Subject { get; set; }
+
+        public List<string> GetFileNameList() {
+            return Message?.Records?.Select(x => x.s3)?.Select(x => x.@object)?.Select(x => x.key)?.ToList() ?? new List<string>();
+        }
     }
     public class Bucket
     {
@@ -47,6 +51,14 @@ namespace Bemobi.Domain.Events
         public RequestParameters requestParameters { get; set; }
         public ResponseElements responseElements { get; set; }
         public S3 s3 { get; set; }
+        public string GetFileName()
+        {
+            return s3?.@object?.key?.ToString() ?? string.Empty;
+        }
+        public int GetFileSize()
+        {
+            return s3?.@object?.size ?? default;
+        }
     }
 
     public class RequestParameters
@@ -66,6 +78,7 @@ namespace Bemobi.Domain.Events
     public class RecordMessage
     {
         public List<Record> Records { get; set; }
+
     }
 
     public class S3

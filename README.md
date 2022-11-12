@@ -15,12 +15,12 @@ tabela = files
 colunas:
 - filename: (primary key, varchar)
 - filesize: long
-- last modified: datetime
+- lastmodified: datetime
 
 Entregas do projeto:
-- código fonte no github, gitlab ou zip
+- Código fonte no github, gitlab ou zip
 - Dockerfile com o processo de build e execução da aplicação (opcional, ganha mais pontos se conseguir)
-- qualquer outra documentação que venha a ser relevante.
+- Qualquer outra documentação que venha a ser relevante.
 
 Tecnologias:
 - AWS SQS
@@ -163,4 +163,55 @@ aws sns set-topic-attributes
 aws s3api put-bucket-notification-configuration 
 --bucket bemobi
 --notification-configuration file://s3-notification.json
+```
+
+* Realizando um upload de teste
+```
+aws s3 cp sample.txt s3://bemobi/
+```
+
+* Lendo as notificações da fila
+```
+aws sqs receive-message 
+--queue-url "http://localhost:4566/000000000000/bemobi-sqs" 
+--max-number-of-messages 10
+```
+
+### Rodando o docker
+Na pasta raiz do projeto, execute:
+
+```
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+```
+
+Com isso o containner com a imagem da api e do mysql serão criadas e executadas.
+
+
+### Agora faça o restore do banco de dados:
+
+Abra outro Powershell ou equivalente, execute o comando para conectara na interface do mysql
+
+```
+docker exec -it mysqldb bash
+```
+Execute o comando para autenticar
+```
+mysql -uroot -p
+```
+Informe a senha
+```
+pk0608
+```
+Usar o banco de dados do projeto
+```
+use bemobi;
+```
+Criar a tabela files
+```
+CREATE TABLE `files` (
+  `filename` varchar(250) NOT NULL,
+  `size` int NOT NULL,
+  `lastmodified` datetime NOT NULL,
+  PRIMARY KEY (`filename`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```

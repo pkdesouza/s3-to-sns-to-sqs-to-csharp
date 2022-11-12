@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Bemobi.Domain.Entities
 {
     [Table("files")]
-    public class File
+    public class Files
     {
-        public File(string fileName, long fileSize, DateTime lastModified)
+        public Files(string fileName, long fileSize, DateTime lastModified)
         {
             FileName = fileName;
             FileSize = fileSize;

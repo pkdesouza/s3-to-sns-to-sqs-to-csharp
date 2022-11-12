@@ -11,12 +11,20 @@ namespace Bemobi.Infra.Infra.Repository
         {
         }
 
-        public async Task<Domain.Entities.File> GetByFileNameAsync(string filename)
+        public async Task<Domain.Entities.Files> GetByFileNameAsync(string filename)
         {
-            return await Connection.QueryFirstOrDefaultAsync<Domain.Entities.File>(
+            return await Connection.QueryFirstOrDefaultAsync<Domain.Entities.Files>(
                  "SELECT f.filename, f.filesize, f.lastmodified FROM files f where f.filename = @filename",
                  new { filename }
                  );
+        }
+
+        public async Task<List<Domain.Entities.Files>> GetByFileNameListAsync(List<string> fileNameList)
+        {
+            return (await Connection.QueryAsync<Domain.Entities.Files>(
+                 "SELECT f.filename, f.filesize, f.lastmodified FROM files f where f.filename in (@fileNameList)",
+                 new { fileNameList }
+                 )).ToList();
         }
     }
 }
