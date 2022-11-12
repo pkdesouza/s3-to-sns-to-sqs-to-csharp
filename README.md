@@ -73,7 +73,7 @@ Saída:
 ```
 * Obter o arn da queue criada
 ```
-awslocal sqs get-queue-attributes --queue-url "http://localhost:4566/000000000000/bemobi-sqs/bemobi-sqs" --attribute-names All
+aws sqs get-queue-attributes --queue-url "http://localhost:4566/000000000000/bemobi-sqs/bemobi-sqs" --attribute-names All
 ```
 Saída:
 ```
@@ -98,17 +98,28 @@ Saída:
 * Configurações até o momento:
 
 S3:
+<br>
 bucket name: s3://bemobi
+<br>
 ARN: arn:aws:s3:::bemobi
 <br>
+<br>
 SNS:
+<br>
 topic name: bemobi-sns
+<br>
 ARN: arn:aws:sns:us-east-1:000000000000:bemobi-sns
 <br>
+<br>
 SQS:
+<br>
 queue name: bemobi-sqs
+<br>
 queue URL: http://localhost:4566/000000000000/bemobi-sqs
+<br>
 ARN: arn:aws:sqs:us-east-1:000000000000:bemobi-sqs
+<br>
+<br>
 
 * Abrir o arquivo sqs-permission.json e adicionar na key "Resource" o arn do sqs e na "aws:SourceArn" o arn do sns 
 * Gerar o json com a key "Policy" para configurar a fila 
@@ -147,7 +158,7 @@ aws sns set-topic-attributes
 --attribute-value file://sns-permission.json
 ```
 * Abrir o arquivo s3-notification.json e adicionar na key "TopicArn" o arn do sns
-* Atribuir essa configuração notificações do bucket
+* Atribuir essa configuração nas notificações do bucket
 ```
 aws s3api put-bucket-notification-configuration 
 --bucket bemobi

@@ -15,6 +15,14 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddInfraDependency(hostContext.Configuration["ConnectionStrings:Db"]);
         AddBus(services, hostContext.Configuration);        
     })
+    .ConfigureAppConfiguration((hostContext, configBuilder) =>
+    {
+        configBuilder
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .Build();
+    })
     .Build();
 
 await host.RunAsync();

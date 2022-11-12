@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  apimysqldocker:
+    image: ${DOCKER_REGISTRY-}api
+    container_name: api
+    build:
+      context: .
+      dockerfile: Bemobi/Bemobi.Consumer/Dockerfile
+    depends_on: 
+      - database
+    ports:
+      - "5000:80"
+    restart: always
+    environment: 
+      - DBHOST=database
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  database:
+    image: mysql:8.0.22
+    container_name: mysqldb
+    ports:
+      - "3306:3306"
+    expose: 
+      - 3306
+    volumes:
+      - db-volume:/var/lib/mysql
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: pk0608
+      MYSQL_USER: pk
+      MYSQL_PASSWORD: pk0608
+      MYSQL_DATABASE: bemobi
+
+volumes:
+  db-volume:

@@ -17,10 +17,10 @@ namespace Bemobi.Domain.Services
 
         public async Task SaveNotificationOnPut(S3PutObjectEvent @event)
         {
-            var file = await _fileReadRepository.GetByFileNameAsync(@event.Name);
+            var file = await _fileReadRepository.GetByFileNameAsync(@event?.Message?.Records?.FirstOrDefault()?.s3?.@object?.key ?? "");
 
             if (file is null)
-                await _fileRepository.UpdateAsync(new Entities.File(@event.Name, 0, DateTime.Now));
+                await _fileRepository.UpdateAsync(new Entities.File(@event?.Message?.Records?.FirstOrDefault()?.s3?.@object?.key ?? "", Convert.ToInt64(@event?.Message?.Records?.FirstOrDefault()?.s3?.@object?.size), DateTime.Now));
             else
                 await _fileRepository.UpdateAsync(file);
         }
