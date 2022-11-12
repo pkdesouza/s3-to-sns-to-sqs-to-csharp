@@ -189,7 +189,7 @@ Com isso o containner com a imagem da api e do mysql serão criadas e executadas
 
 ### Agora faça o restore do banco de dados:
 
-Abra outro Powershell ou equivalente, execute o comando para conectara na interface do mysql
+Abra outro Powershell ou equivalente, execute o comando para conectar na interface do mysql
 
 ```
 docker exec -it mysqldb bash

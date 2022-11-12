@@ -9,7 +9,8 @@ namespace Bemobi.Domain.Services
     {
         private readonly IFileRepository _fileRepository;
         private readonly IFileReadRepository _fileReadRepository;
-        private Func<Files, string, bool> _getByKey = (file, key) => file.FileName == key;
+        private readonly Func<Files, string, bool> _getByKey = (file, key) => file.FileName == key;
+        private readonly Func<DateTime, DateTime, bool> DismissNotification = (lastModified, timestamp) => lastModified >= timestamp;
         public S3EventDomainService(
             IFileRepository fileRepository,
             IFileReadRepository fileReadRepository)
@@ -28,18 +29,22 @@ namespace Bemobi.Domain.Services
             foreach (var record in @event.Message.Records)
             {
                 var key = record.GetFileName();
+                var size = record.GetFileSize();
+                var lastModified = @event.Timestamp;
                 if (fileList.Any(x => _getByKey(x, key)))
                 {
                     var file = fileList.First(x => _getByKey(x, key));
-                    if (file.LastModified >= @event.Timestamp) {
+                    if (DismissNotification(file.LastModified, @event.Timestamp))
+                    {
                         Debug.WriteLine($"The lastModified field is newer than the notification, so the record will not be updated.");
                         continue;
                     }
-                    updateList.Add(file);
+                    
+                    updateList.Add(file.SetFileName(key).SetFileSize(size).SetLastModified(lastModified));
                     continue;
                 }
                 
-                createList.Add(new Files(record.GetFileName(), record.GetFileSize(), @event.Timestamp));
+                createList.Add(new Files(key, size, lastModified));
             }
 
             if (createList.Any())

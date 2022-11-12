@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bemobi.Domain.Entities
 {
@@ -13,8 +12,24 @@ namespace Bemobi.Domain.Entities
             LastModified = lastModified;
         }
 
-        public string FileName { get; set; }
-        public long FileSize { get; set; }
-        public DateTime LastModified { get; set; }
+        public string FileName { get; private set; }
+        public long FileSize { get; private set; }
+        public DateTime LastModified { get; private set; }
+
+        public Files SetFileName(string value)
+        {
+            FileName = value;
+            return this;
+        }
+        public Files SetFileSize(int value)
+        {
+            FileSize = value;
+            return this;
+        }
+        public Files SetLastModified(DateTime value)
+        {
+            LastModified = value;
+            return this;
+        }
     }
 }
