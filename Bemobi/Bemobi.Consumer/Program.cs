@@ -32,6 +32,7 @@ void AddBus(IServiceCollection services, IConfiguration configuration)
             {
                 h.AccessKey(configuration["AWS:AccessKey"]);
                 h.SecretKey(configuration["AWS:SecretKey"]);
+                
             });
 
             cfg.ReceiveEndpoint(configuration["AWS:Queues:S3EventConsumer"], c =>

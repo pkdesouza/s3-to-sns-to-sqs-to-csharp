@@ -7,7 +7,7 @@ namespace Bemobi.Consumer.Consumers
 {
     internal class S3PutObjectEventConsumer : BaseEventConsumer, IConsumer<S3PutObjectEvent>
     {
-        public static async Task ProcessProductCreatedEventAsync(IS3EventDomainService domainService, ConsumeContext<S3PutObjectEvent> context)
+        public static async Task ProcessEventAsync(IS3EventDomainService domainService, ConsumeContext<S3PutObjectEvent> context)
         {
             if (context.Message != null)
                 await domainService.SaveNotificationOnPut(context.Message);
@@ -18,7 +18,7 @@ namespace Bemobi.Consumer.Consumers
             await ProcessAsync<S3PutObjectEvent, IS3EventDomainService>(
                 context,
                 GetType().Name,
-                (eventProcess) => ProcessProductCreatedEventAsync(eventProcess, context));
+                (eventProcess) => ProcessEventAsync(eventProcess, context));
         }
     }
 }

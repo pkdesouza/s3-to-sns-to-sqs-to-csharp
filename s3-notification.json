@@ -1,0 +1,13 @@
+{
+  "TopicConfigurations": [
+    {
+      "Id": "s3-notification-to-sns",
+      "TopicArn": "arn:aws:sns:us-east-1:000000000000:bemobi-sns",
+      "Events": [
+        "s3:ObjectCreated:*",
+        "s3:ObjectAcl:Put",
+		"s3:ObjectTagging:Put"
+      ]
+    }
+  ]
+}
