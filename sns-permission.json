@@ -1,5 +1,5 @@
 {
-  "Version": "2022-11-11",
+  "Version": "2012-10-17",
   "Id": "allow-s3-to-sns",
   "Statement": [
     {
@@ -9,7 +9,7 @@
         "AWS": "*"
       },
       "Action": "SNS:Publish",
-      "Resource": "arn:aws:sns:us-east-1:000000000000:bemobi-sns",
+      "Resource": "arn:aws:sns:us-east-1:020342456388:bemobi-sns",
       "Condition": {
         "ArnEquals": {
           "aws:SourceArn": "arn:aws:s3:::bemobi"

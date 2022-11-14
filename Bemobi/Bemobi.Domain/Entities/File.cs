@@ -5,6 +5,9 @@ namespace Bemobi.Domain.Entities
     [Table("files")]
     public class Files
     {
+        public Files()
+        {
+        }
         public Files(string fileName, long fileSize, DateTime lastModified)
         {
             FileName = fileName;

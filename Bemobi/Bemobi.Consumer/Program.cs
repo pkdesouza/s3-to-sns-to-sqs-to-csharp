@@ -1,4 +1,5 @@
 ﻿using Amazon.SQS;
+using Bemobi.Consumer;
 using Bemobi.Consumer.Consumers;
 using Bemobi.Domain;
 using Bemobi.Infra;
@@ -13,14 +14,13 @@ var host = Host.CreateDefaultBuilder(args)
     {
         services.AddDomainDependency();
         services.AddInfraDependency(hostContext.Configuration["ConnectionStrings:Db"]);
-        AddBus(services, hostContext.Configuration);        
+        AddAwsConfig(services, hostContext.Configuration);
     })
     .ConfigureAppConfiguration((hostContext, configBuilder) =>
     {
         configBuilder
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
-            .AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true)
             .Build();
     })
     .Build();
@@ -28,7 +28,7 @@ var host = Host.CreateDefaultBuilder(args)
 await host.RunAsync();
 
 
-void AddBus(IServiceCollection services, IConfiguration configuration)
+void AddAwsConfig(IServiceCollection services, IConfiguration configuration)
 {
     services.AddMassTransit(x =>
     {
@@ -45,13 +45,18 @@ void AddBus(IServiceCollection services, IConfiguration configuration)
 
             cfg.ReceiveEndpoint(configuration["AWS:Queues:S3EventConsumer"], c =>
             {
+                c.ClearSerialization();
+                c.UseRawJsonSerializer();
                 c.PublishFaults = false;
                 c.ConfigureConsumeTopology = false;
                 c.WaitTimeSeconds = 20;
-                c.QueueAttributes.Add(QueueAttributeName.VisibilityTimeout, "60");
+                c.QueueAttributes.Add(QueueAttributeName.VisibilityTimeout, "30");
 
                 c.ConfigureConsumer<S3PutObjectEventConsumer>(context);
             });
         });
     });
+
+    services.AddOptions<MassTransitHostOptions>();
+    services.AddHostedService<ConsumerHostedService>();
 }

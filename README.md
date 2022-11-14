@@ -57,7 +57,7 @@ aws sns create-topic --name bemobi-sns
 Saída:
 ```
 {
-    "TopicArn": "arn:aws:sns:us-east-1:000000000000:bemobi-sns"
+    "TopicArn": "arn:aws:sns:us-east-1:020342456388:bemobi-sns"
 }
 ```
 
@@ -68,13 +68,15 @@ aws sqs create-queue --queue-name bemobi-sqs
 Saída:
 ```
 {
-    "QueueUrl": "http://localhost:4566/000000000000/bemobi-sqs"
+    "QueueUrl": "https://sqs.us-east-1.amazonaws.com/020342456388/bemobi-sqs"
 }
 ```
 * Obter o arn da queue criada
 ```
-aws sqs get-queue-attributes --queue-url "http://localhost:4566/000000000000/bemobi-sqs/bemobi-sqs" --attribute-names All
+aws sqs get-queue-attributes --queue-url "https://sqs.us-east-1.amazonaws.com/020342456388/bemobi-sqs" --attribute-names All
 ```
+
+
 Saída:
 ```
 {
@@ -87,7 +89,7 @@ Saída:
         "LastModifiedTimestamp": "1668207935",
         "MaximumMessageSize": "262144",
         "MessageRetentionPeriod": "345600",
-        "QueueArn": "arn:aws:sqs:us-east-1:000000000000:bemobi-sqs",
+        "QueueArn": "arn:aws:sqs:us-east-1:020342456388:bemobi-sqs",
         "ReceiveMessageWaitTimeSeconds": "0",
         "VisibilityTimeout": "30",
         "SqsManagedSseEnabled": "false"
@@ -108,16 +110,16 @@ SNS:
 <br>
 topic name: bemobi-sns
 <br>
-ARN: arn:aws:sns:us-east-1:000000000000:bemobi-sns
+ARN: arn:aws:sns:us-east-1:020342456388:bemobi-sns
 <br>
 <br>
 SQS:
 <br>
 queue name: bemobi-sqs
 <br>
-queue URL: http://localhost:4566/000000000000/bemobi-sqs
+queue URL: https://sqs.us-east-1.amazonaws.com/020342456388/bemobi-sqs
 <br>
-ARN: arn:aws:sqs:us-east-1:000000000000:bemobi-sqs
+ARN: arn:aws:sqs:us-east-1:020342456388:bemobi-sqs
 <br>
 <br>
 
@@ -131,20 +133,20 @@ Se não tiver o jq instalado, é só instalar nesse link https://stedolan.github
 * Atribuir essa configuração na queue 
 ```
 aws sqs set-queue-attributes 
---queue-url "http://localhost:4566/000000000000/bemobi-sqs" 
+--queue-url "https://sqs.us-east-1.amazonaws.com/020342456388/bemobi-sqs" 
 --attributes file://sqs.json
 ```
 * Realizando a inscrição da queue no Tópico do SNS
 ```
 aws sns subscribe 
---topic-arn "arn:aws:sns:us-east-1:000000000000:bemobi-sns" 
+--topic-arn "arn:aws:sns:us-east-1:020342456388:bemobi-sns" 
 --protocol "sqs" 
---notification-endpoint "http://localhost:4566/000000000000/bemobi-sqs"
+--notification-endpoint "arn:aws:sqs:us-east-1:020342456388:bemobi-sqs"
 ```
 Saída:
 ```
 {
-    "SubscriptionArn": "arn:aws:sns:us-east-1:000000000000:bemobi-sns:8dee28f3-cab0-46d1-a7ef-391123236ce8"
+    "SubscriptionArn": "arn:aws:sns:us-east-1:020342456388:bemobi-sns:3a4cd821-88f5-49e8-b152-c5b3e59cd25f"
 }
 ```
 * Abrir o arquivo sns-permission.json e adicionar na key "Resource" o arn do sns e na "aws:SourceArn" o bucket do s3
@@ -153,7 +155,7 @@ Saída:
 
 ```
 aws sns set-topic-attributes 
---topic-arn "arn:aws:sns:us-east-1:000000000000:bemobi-sns" 
+--topic-arn "arn:aws:sns:us-east-1:020342456388:bemobi-sns" 
 --attribute-name Policy 
 --attribute-value file://sns-permission.json
 ```
@@ -173,7 +175,7 @@ aws s3 cp sample.txt s3://bemobi/
 * Lendo as notificações da fila
 ```
 aws sqs receive-message 
---queue-url "http://localhost:4566/000000000000/bemobi-sqs" 
+--queue-url "https://sqs.us-east-1.amazonaws.com/020342456388/bemobi-sqs" 
 --max-number-of-messages 10
 ```
 
@@ -210,7 +212,7 @@ Criar a tabela files
 ```
 CREATE TABLE `files` (
   `filename` varchar(250) NOT NULL,
-  `size` int NOT NULL,
+  `filesize` int NOT NULL,
   `lastmodified` datetime NOT NULL,
   PRIMARY KEY (`filename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

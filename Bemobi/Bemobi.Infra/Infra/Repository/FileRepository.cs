@@ -21,7 +21,7 @@ namespace Bemobi.Infra.Infra.Repository
 
         public async Task AddRangeAsync(List<Files> entityList)
         {
-            await _context.Files.AddRangeAsync(entityList);
+            _context.Files.AddRange(entityList);
             await SaveChangesAsync();
         }
 

@@ -7,16 +7,17 @@ namespace Bemobi.Domain.Events
         public string Type { get; set; }
         public string MessageId { get; set; }
         public string TopicArn { get; set; }
-        public RecordMessage Message { get; set; }
+        public string Message { get; set; }
         public DateTime Timestamp { get; set; }
         public string SignatureVersion { get; set; }
         public string Signature { get; set; }
         public string SigningCertURL { get; set; }
         public string UnsubscribeURL { get; set; }
         public string Subject { get; set; }
+        public RecordMessage RecordMessage { get; set; }
 
         public List<string> GetFileNameList() {
-            return Message?.Records?.Select(x => x.s3)?.Select(x => x.@object)?.Select(x => x.key)?.ToList() ?? new List<string>();
+            return RecordMessage?.Records.Select(x => x.s3).Select(x => x.@object).Select(x => x.key).ToList() ?? new List<string>();
         }
     }
     public class Bucket
@@ -86,6 +87,8 @@ namespace Bemobi.Domain.Events
         public string s3SchemaVersion { get; set; }
         public string configurationId { get; set; }
         public Bucket bucket { get; set; }
+        
+        [JsonProperty("object")]
         public Object @object { get; set; }
     }
 

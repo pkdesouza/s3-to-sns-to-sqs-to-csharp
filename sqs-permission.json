@@ -1,5 +1,5 @@
 {
-  "Version": "2022-11-11",
+  "Version": "2012-10-17",
   "Id": "allow-sns-to-sqs",
   "Statement": [
     {
@@ -9,10 +9,10 @@
         "AWS": "*"
       },
       "Action": "SQS:SendMessage",
-      "Resource": "arn:aws:sqs:us-east-1:000000000000:bemobi-sqs",
+      "Resource": "arn:aws:sqs:us-east-1:020342456388:bemobi-sqs",
       "Condition": {
         "ArnEquals": {
-          "aws:SourceArn": "arn:aws:sns:us-east-1:000000000000:bemobi-sns"
+          "aws:SourceArn": "arn:aws:sns:us-east-1:020342456388:bemobi-sns"
         }
       }
     }
