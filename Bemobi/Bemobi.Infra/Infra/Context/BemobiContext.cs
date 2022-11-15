@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Bemobi.Infra.Infra.Context
 {
     public class BemobiContext : DbContext
     {
         public BemobiContext(DbContextOptions<BemobiContext> options)
-            : base(options)
+            : base(options) 
         {
         }
+
         public DbSet<Domain.Entities.Files> Files { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

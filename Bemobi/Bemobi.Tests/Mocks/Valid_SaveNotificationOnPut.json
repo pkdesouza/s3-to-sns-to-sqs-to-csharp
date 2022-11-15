@@ -1,0 +1,12 @@
+{
+  "Type": "Notification",
+  "MessageId": "04b9c60d-df1f-553c-9799-9de060ad6dfc",
+  "TopicArn": "arn:aws:sns:us-east-1:020342456388:bemobi-sns",
+  "Subject": "Amazon S3 Notification",
+  "Message": "{\"Records\":[{\"eventVersion\":\"2.1\",\"eventSource\":\"aws:s3\",\"awsRegion\":\"us-east-1\",\"eventTime\":\"2022-11-15T16:25:20.899Z\",\"eventName\":\"ObjectCreated:Put\",\"userIdentity\":{\"principalId\":\"A39VX3JNGGQWWV\"},\"requestParameters\":{\"sourceIPAddress\":\"187.79.81.109\"},\"responseElements\":{\"x-amz-request-id\":\"FYG8VJQVHQ46EN5H\",\"x-amz-id-2\":\"rNS3o72PRE0t/YhwnO41JKV469wooZcrmqepCTpncDQ+v7tWb0wkeXDYbBHRwGA5JH2ChBWCKWI1dVbk0dFtZntAua2O8GICDlZS7BtevuM=\"},\"s3\":{\"s3SchemaVersion\":\"1.0\",\"configurationId\":\"s3-notification-to-sns\",\"bucket\":{\"name\":\"bemobi\",\"ownerIdentity\":{\"principalId\":\"A39VX3JNGGQWWV\"},\"arn\":\"arn:aws:s3:::bemobi\"},\"object\":{\"key\":\"pk.txt\",\"size\":359,\"eTag\":\"b193f621c4bd90d9b2be8e13bb28435a\",\"sequencer\":\"006373BD70B66CB6EC\"}}}]}",
+  "Timestamp": "2022-11-15T16:25:22.194Z",
+  "SignatureVersion": "1",
+  "Signature": "i57L+eU1zAm/WOiY1uQ+Lu0d5d3E08CaVhsMYB1jeu+srT6ADZ0BW5rBvYV2aJRWEA5cydB7eRpiSQOTSsp9zWXSYEgpO9ORCnmoEUt26jSrATmcexxvA58WGoR7kBBc0mKjuwj/jS+xT7STtPrTnt0TsmuzOkGlOxHldI4i8RbWOfqQL4iNEdoJCWp+YfF/9kiM8uAUPN39ZnXuiIgb6esNlOESKD/IUkMdctr92Gp/oBPIv5vm8MRvJxR3ElsjBko/l6oSgpKB0I1Rd4SaS3iMPrC1O6DslhcbMayF4Ju9xEsrCG2jCab27PiskuEHu+wsn3vsr+uYorJ+uZ79Bw==",
+  "SigningCertURL": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-56e67fcb41f6fec09b0196692625d385.pem",
+  "UnsubscribeURL": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:020342456388:bemobi-sns:3a4cd821-88f5-49e8-b152-c5b3e59cd25f"
+}

@@ -19,7 +19,7 @@ namespace Bemobi.Infra.Infra.Repository
                  );
         }
 
-        public async Task<List<Domain.Entities.Files>> GetByFileNameListAsync(List<string> fileNameList)
+        public async Task<List<Domain.Entities.Files>> GetByFileNameListAsync(List<string?> fileNameList)
         {
             return (await Connection.QueryAsync<Domain.Entities.Files>(
                  "SELECT f.filename, f.filesize, f.lastmodified FROM files f where f.filename in (@fileNameList)",

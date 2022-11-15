@@ -22,18 +22,20 @@ namespace Bemobi.Consumer.Consumers.Base
 
             try
             {
-                Debug.WriteLine($"Executing the resource {consumeType}");
+                Debug.WriteLine($"Executing the resource {consumeType} with messageId {context.MessageId}");
                 await process(eventProcess);
-                Debug.WriteLine($"The resource {consumeType} execution completed successfully");
+                Debug.WriteLine($"The resource {consumeType} with messageId {context.MessageId} execution completed successfully");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"An error occurred while executing the resource {consumeType}");
+                Debug.WriteLine($"An error occurred while executing the resource {consumeType} with messageid {context.MessageId}");
                 Debug.WriteLine($"{ex.Message}");
                 Debug.WriteLine($"{ex.StackTrace}");
 
                 if (exceptionHandler != null)
                     await exceptionHandler(eventProcess, ex);
+                else
+                    throw;
             }
             finally
             {

@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bemobi.Consumer", "Bemobi.Consumer\Bemobi.Consumer.csproj", "{B7A2D49C-9E6E-476B-9CC4-42C0D4FA2964}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bemobi.Consumer", "Bemobi.Consumer\Bemobi.Consumer.csproj", "{B7A2D49C-9E6E-476B-9CC4-42C0D4FA2964}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bemobi.Domain", "Bemobi.Domain\Bemobi.Domain.csproj", "{240A94F0-DFB2-452A-B213-9F3802D00334}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bemobi.Domain", "Bemobi.Domain\Bemobi.Domain.csproj", "{240A94F0-DFB2-452A-B213-9F3802D00334}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bemobi.Infra", "Bemobi.Infra\Bemobi.Infra.csproj", "{9A5FE80D-11D4-4513-8645-AAA197898F3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bemobi.Infra", "Bemobi.Infra\Bemobi.Infra.csproj", "{9A5FE80D-11D4-4513-8645-AAA197898F3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5D490ADE-9274-49F6-BA91-594A3644A0F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bemobi.Tests", "Bemobi.Tests\Bemobi.Tests.csproj", "{DDEDDC18-083E-46D2-9332-0320AA91B3B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +31,16 @@ Global
 		{9A5FE80D-11D4-4513-8645-AAA197898F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A5FE80D-11D4-4513-8645-AAA197898F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A5FE80D-11D4-4513-8645-AAA197898F3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDEDDC18-083E-46D2-9332-0320AA91B3B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDEDDC18-083E-46D2-9332-0320AA91B3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDEDDC18-083E-46D2-9332-0320AA91B3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDEDDC18-083E-46D2-9332-0320AA91B3B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DDEDDC18-083E-46D2-9332-0320AA91B3B3} = {5D490ADE-9274-49F6-BA91-594A3644A0F9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {46DCC8F1-99A6-4328-9F00-06C4D5E1AB8D}

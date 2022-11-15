@@ -1,5 +1,5 @@
 ﻿using Bemobi.Domain.Entities;
-using Bemobi.Domain.Events;
+using Bemobi.Domain.Events.S3PutObject;
 using Bemobi.Domain.Interfaces;
 using System.Diagnostics;
 
@@ -19,7 +19,7 @@ namespace Bemobi.Domain.Services
             _fileRepository = fileRepository;
         }
 
-        public async Task SaveNotificationOnPut(S3PutObjectEvent @event)
+        public async Task SaveNotificationOnPutAsync(S3PutObjectEvent @event)
         {
             var fileNameList = @event.GetFileNameList();
 
@@ -39,10 +39,10 @@ namespace Bemobi.Domain.Services
 
         private void FillUpdateAndCreateList(S3PutObjectEvent @event, List<Files> fileList, List<Files> updateList, List<Files> createList)
         {
-            foreach (var (key, size, lastModified) in from record in @event.RecordMessage.Records
+            foreach (var (key, size, lastModified) in from record in @event!.RecordMessage!.Records
                                                       let key = record.GetFileName()
                                                       let size = record.GetFileSize()
-                                                      let lastModified = @event.Timestamp
+                                                      let lastModified = @event!.Timestamp
                                                       select (key, size, lastModified))
             {
                 if (fileList.Any(x => IsSameFileName(x, key)))

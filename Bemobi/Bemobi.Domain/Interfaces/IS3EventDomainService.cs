@@ -1,7 +1,7 @@
-﻿using Bemobi.Domain.Events;
+﻿using Bemobi.Domain.Events.S3PutObject;
 
 namespace Bemobi.Domain.Interfaces;
 public interface IS3EventDomainService
 {
-    Task SaveNotificationOnPut(S3PutObjectEvent @event);
+    Task SaveNotificationOnPutAsync(S3PutObjectEvent @event);
 }

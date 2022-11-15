@@ -14,7 +14,7 @@ namespace Bemobi.Infra.Infra.Provider
             _configuration = configuration;
             _connection = new MySqlConnection
             {
-                ConnectionString = _configuration["ConnectionStrings:Db"]
+                ConnectionString = _configuration.GetConnectionString()
             };
         }
 
@@ -27,7 +27,7 @@ namespace Bemobi.Infra.Infra.Provider
                 
                 _connection = new MySqlConnection
                 {
-                    ConnectionString = _configuration["ConnectionStrings:Db"]
+                    ConnectionString = _configuration.GetConnectionString()
                 };
 
                 return _connection;

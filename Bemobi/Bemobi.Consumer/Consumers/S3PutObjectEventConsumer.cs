@@ -1,5 +1,5 @@
 ﻿using Bemobi.Consumer.Consumers.Base;
-using Bemobi.Domain.Events;
+using Bemobi.Domain.Events.S3PutObject;
 using Bemobi.Domain.Interfaces;
 using MassTransit;
 using static Newtonsoft.Json.JsonConvert;
@@ -10,13 +10,12 @@ namespace Bemobi.Consumer.Consumers
     {
         public static async Task ProcessEventAsync(IS3EventDomainService domainService, ConsumeContext<S3PutObjectEvent> context)
         {
-            if (context.Message != null)
+            if (context.Message != null && !string.IsNullOrEmpty(context.Message.Message))
             {
                 context.Message.RecordMessage = DeserializeObject<RecordMessage>(context.Message.Message) ?? new RecordMessage();
-                await domainService.SaveNotificationOnPut(context.Message);
+                await domainService.SaveNotificationOnPutAsync(context.Message);
             }
         }
-
         public async Task Consume(ConsumeContext<S3PutObjectEvent> context)
         {
             await ProcessAsync<S3PutObjectEvent, IS3EventDomainService>(

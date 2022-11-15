@@ -1,14 +1,14 @@
 # Projeto bemobi
-Aplicação .net core que leia os eventos de notificação do AWS S3 PutObject a partir de uma fila SQS
+Aplicação .net core que leia os eventos de notificação do AWS S3 a partir de uma fila SQS
 
 # Tecnologias
 .NET Core 6 + MySql + Docker + AWS 
 
-## Objetivo
+# Objetivo
 É necessária uma aplicação .net core que execute as seguintes etapas: <br>
-* 1. Leia os eventos de notificação do AWS S3 PutObject a partir de uma fila SQS. 
-* 2. Para cada notificação recebida, é necessário atualizar as colunas filename e filesize no banco de dados mysql. 
-* 3. Caso a entrada não exista, é necessário criá-la. Caso o campo last_modified seja mais novo que a notificação, emitir um log e não deverá atualizar o registro.
+* Leia os eventos de notificação do AWS S3 PutObject a partir de uma fila SQS. 
+* Para cada notificação recebida, é necessário atualizar as colunas filename e filesize no banco de dados mysql. 
+* Caso a entrada não exista, é necessário criá-la. Caso o campo last_modified seja mais novo que a notificação, emitir um log e não deverá atualizar o registro.
 
 A estrutura da tabela é:
 tabela = files
@@ -26,6 +26,25 @@ Tecnologias:
 - AWS SQS
 - .NET Core
 - Docker (opcional, ganha mais pontos se conseguir)
+
+## Arquitetura
+
+### Nuvem
+Foi utilzado os serviços S3, SNS e SQS da AWS.
+
+![image](https://user-images.githubusercontent.com/32820622/202036430-cc482add-b42e-4934-86de-71912c9bd1ad.png)
+
+### Aplicação
+Foi utilizado .NET 6.0 com EntityFramework para operações de escritas e Dapper para operações de leitura.
+![image](https://user-images.githubusercontent.com/32820622/202039200-d4dcb1a7-9f30-4fe4-8cb2-6750a72486c2.png)
+
+### Banco de Dados
+Foi utilizado mysql como banco de dados relacional.<br>
+![image](https://user-images.githubusercontent.com/32820622/202039393-360f2b43-d4d3-4711-8e3e-5f8049331474.png)
+
+### Testes
+Foi utilizado testes com XUnit nas abordagens de unidade e integração.<br>
+![image](https://user-images.githubusercontent.com/32820622/202040257-e7dcd499-5087-4920-8905-96f17f94201d.png)
 
 ## Como rodar
 
@@ -75,7 +94,6 @@ Saída:
 ```
 aws sqs get-queue-attributes --queue-url "https://sqs.us-east-1.amazonaws.com/020342456388/bemobi-sqs" --attribute-names All
 ```
-
 
 Saída:
 ```
@@ -217,3 +235,14 @@ CREATE TABLE `files` (
   PRIMARY KEY (`filename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 ```
+
+### Projeto de testes
+Existe o projeto de testes no qual está dividido em 2 critérios:
+
+* Unitário
+Testa a lógica de negócio da unidade. <br>
+Abordagem: aplicação faz a leitura de um mock e testa cenários de processamento, os repositório são mockados de acordo com o padrão esperado.
+
+* Integração
+Testa toda a integração, para isso é necessário utilizar o docker para levantar os containers.
+Abordagem: aplicação instacia o docker, após isso, um arquivo de sample é enviado para o bucket do s3. No qual, acionará uma notificação do Tópico, que por sua vez enviará a mensagem para a fila. A aplicação fará o consumo dessa mensagem e atualização na base de dados.
