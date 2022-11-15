@@ -75,11 +75,11 @@ namespace Bemobi.Tests.Integrations
             StartProcessInfo(processDockerStop);
         }
 
-        private static void StartProcessInfo(ProcessStartInfo process)
+        private static void StartProcessInfo(ProcessStartInfo processStart)
         {
             int exitCode;
             using var process = new Process();
-            process.StartInfo = process;
+            process.StartInfo = processStart;
 
             process.Start();
             process.BeginOutputReadLine();

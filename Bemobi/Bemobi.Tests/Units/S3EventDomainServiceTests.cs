@@ -24,9 +24,8 @@ namespace Bemobi.Tests.Units
             _fileReadRepository = new Mock<IFileReadRepository>();
             _validEventInput = GetMockByFile(_pathMock);
             if (!(_validEventInput != null && _validEventInput.RecordMessage != null && _validEventInput.RecordMessage.Records != null))
-            {
                 Assert.NotNull(null);
-            }
+            
             _message = _validEventInput!.RecordMessage!.Records!.First();
         }
 
@@ -59,7 +58,7 @@ namespace Bemobi.Tests.Units
         {
             // Arrange
             _filesUpdated = new(); _filesCreated = new();
-            int size = new Random().Next(1, 5000);
+            long size = new Random().NextInt64(1, 5000);
 
             // Setups
             _filesUpdated.Add(new Files(_message.GetFileName(), size, _validEventInput.Timestamp.AddMinutes(-60)));

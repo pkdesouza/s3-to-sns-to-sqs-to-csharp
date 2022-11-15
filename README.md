@@ -230,7 +230,7 @@ Criar a tabela files
 ```
 CREATE TABLE `files` (
   `filename` varchar(250) NOT NULL,
-  `filesize` int NOT NULL,
+  `filesize` bigint NOT NULL,
   `lastmodified` datetime NOT NULL,
   PRIMARY KEY (`filename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -245,4 +245,5 @@ Abordagem: aplicação faz a leitura de um mock e testa cenários de processamen
 
 * Integração
 Testa toda a integração, para isso é necessário utilizar o docker para levantar os containers.
-Abordagem: aplicação instacia o docker, após isso, um arquivo de sample é enviado para o bucket do s3. No qual, acionará uma notificação do Tópico, que por sua vez enviará a mensagem para a fila. A aplicação fará o consumo dessa mensagem e atualização na base de dados.
+Abordagem: aplicação instacia o docker, após isso, um arquivo de sample é enviado para o bucket do s3. No qual, acionará uma notificação do Tópico, que por sua vez enviará a mensagem para a fila. A aplicação fará o consumo dessa mensagem e atualização na base de dados.<br>
+![image](https://user-images.githubusercontent.com/32820622/202044051-6804908a-dfce-4a7c-a903-88ad26bbc644.png)
