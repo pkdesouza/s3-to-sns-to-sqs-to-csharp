@@ -2,6 +2,7 @@
 using Bemobi.Domain.Events.S3PutObject;
 using Bemobi.Domain.Interfaces;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Bemobi.Domain.Services
 {
@@ -19,16 +20,16 @@ namespace Bemobi.Domain.Services
             _fileRepository = fileRepository;
         }
 
-        public async Task SaveNotificationOnPutAsync(S3PutObjectEvent @event)
+        public async Task SaveNotificationOnPutAsync(S3PutObjectEvent notification)
         {
-            var fileNameList = @event.GetFileNameList();
+            var fileNameList = notification.GetFileNameList();
 
             if (!fileNameList.Any()) return;
 
             var fileList = await _fileReadRepository.GetByFileNameListAsync(fileNameList);
             List<Files> updateList = new(), createList = new();
 
-            FillUpdateAndCreateList(@event, fileList, updateList, createList);
+            FillUpdateAndCreateList(notification, fileList, updateList, createList);
 
             if (createList.Any())
                 await _fileRepository.AddRangeAsync(createList);
@@ -37,24 +38,24 @@ namespace Bemobi.Domain.Services
                 await _fileRepository.UpdateRangeAsync(updateList);
         }
 
-        private void FillUpdateAndCreateList(S3PutObjectEvent @event, List<Files> fileList, List<Files> updateList, List<Files> createList)
+        private void FillUpdateAndCreateList(S3PutObjectEvent notification, List<Files> fileList, List<Files> updateList, List<Files> createList)
         {
-            foreach (var (key, size, lastModified) in from record in @event!.RecordMessage!.Records
+            foreach (var (key, size, lastModified) in from record in notification!.RecordMessage!.Records
                                                       let key = record.GetFileName()
                                                       let size = record.GetFileSize()
-                                                      let lastModified = @event!.Timestamp
+                                                      let lastModified = notification!.Timestamp
                                                       select (key, size, lastModified))
             {
                 if (fileList.Any(x => IsSameFileName(x, key)))
                 {
                     var file = fileList.First(x => IsSameFileName(x, key));
-                    if (DismissNotification(file.LastModified, @event.Timestamp))
+                    if (DismissNotification(file.LastModified, notification.Timestamp))
                     {
                         Debug.WriteLine($"The lastModified field is newer than the notification, so the record will not be updated.");
                         continue;
                     }
 
-                    updateList.Add(file.SetFileName(key).SetFileSize(size).SetLastModified(lastModified));
+                    updateList.Add(file.SetFileSize(size).SetLastModified(lastModified));
                     continue;
                 }
 

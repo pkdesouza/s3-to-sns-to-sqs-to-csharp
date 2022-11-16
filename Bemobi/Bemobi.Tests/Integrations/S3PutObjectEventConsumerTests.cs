@@ -39,7 +39,6 @@ namespace Bemobi.Tests.Integrations
 
             ProcessStartInfo processDockerUp = CreateProcessInfo(commandToDockerUp);
             StartProcessInfo(processDockerUp);
-
         }
 
         [Fact]

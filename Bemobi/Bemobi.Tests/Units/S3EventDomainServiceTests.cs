@@ -33,7 +33,8 @@ namespace Bemobi.Tests.Units
         public async Task Should_Add_SaveNotificationOnPut()
         {
             // Arrange
-            _filesUpdated = new(); _filesCreated = new();
+            _filesUpdated = new(); 
+            _filesCreated = new();
 
             // Setups
             _fileRepository.Setup(x => x.AddRangeAsync(It.IsAny<List<Files>>())).Callback<List<Files>>(r => _filesCreated = r);
@@ -57,7 +58,8 @@ namespace Bemobi.Tests.Units
         public async Task Should_Update_SaveNotificationOnPut()
         {
             // Arrange
-            _filesUpdated = new(); _filesCreated = new();
+            _filesUpdated = new(); 
+            _filesCreated = new();
             long size = new Random().NextInt64(1, 5000);
 
             // Setups
@@ -84,7 +86,8 @@ namespace Bemobi.Tests.Units
         public async Task Should_Dimiss_SaveNotificationOnPut()
         {
             // Arrange
-            _filesUpdated = new(); _filesCreated = new();
+            _filesUpdated = new();
+            _filesCreated = new();
 
             // Setups
             _filesUpdated.Add(new Files(_message.GetFileName(), _message.GetFileSize(), _validEventInput.Timestamp.AddMinutes(60)));

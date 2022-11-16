@@ -13,38 +13,15 @@ namespace Bemobi.Infra.Infra.Repository
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Files> AddAsync(Files entity)
-        {
-            await _context.Files.AddAsync(entity);
-            return await SaveChangesAsync(entity);
-        }
-
         public async Task AddRangeAsync(List<Files> entityList)
         {
-            _context.Files.AddRange(entityList);
-            await SaveChangesAsync();
-        }
-
-        public async Task<Files> UpdateAsync(Files entity)
-        {
-            _context.Files.Update(entity);
-            return await SaveChangesAsync(entity);
+            await _context.Files.AddRangeAsync(entityList);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateRangeAsync(List<Files> entityList)
         {
             _context.Files.UpdateRange(entityList);
-            await SaveChangesAsync();
-        }
-
-        private async Task<Files> SaveChangesAsync(Files entity)
-        {
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        private async Task SaveChangesAsync()
-        {
             await _context.SaveChangesAsync();
         }
     }

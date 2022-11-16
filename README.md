@@ -141,7 +141,7 @@ ARN: arn:aws:sqs:us-east-1:020342456388:bemobi-sqs
 <br>
 <br>
 
-* Abrir o arquivo sqs-permission.json e adicionar na key "Resource" o arn do sqs e na "aws:SourceArn" o arn do sns 
+* Abrir o arquivo sqs-permission.json, em seguida, adicionar o valor do arn do sqs na key "Resource" e o valor do arn do sns na "aws:SourceArn"
 * Gerar o json com a key "Policy" para configurar a fila 
 ```
 jq -c '. | { Policy: @text }' sqs-permission.json > sqs.json
@@ -167,7 +167,7 @@ Saída:
     "SubscriptionArn": "arn:aws:sns:us-east-1:020342456388:bemobi-sns:3a4cd821-88f5-49e8-b152-c5b3e59cd25f"
 }
 ```
-* Abrir o arquivo sns-permission.json e adicionar na key "Resource" o arn do sns e na "aws:SourceArn" o bucket do s3
+* Abrir o arquivo sns-permission.json, em seguida, adicionar o valor do o arn do sns na key "Resource" e o valor do bucket do s3 na "aws:SourceArn"
 
 * Atribuir essa configuração no tópico do sns 
 
@@ -177,7 +177,7 @@ aws sns set-topic-attributes
 --attribute-name Policy 
 --attribute-value file://sns-permission.json
 ```
-* Abrir o arquivo s3-notification.json e adicionar na key "TopicArn" o arn do sns
+* Abrir o arquivo s3-notification.json, em seguida, adicionar o valor do arn do sns na key "TopicArn"
 * Atribuir essa configuração nas notificações do bucket
 ```
 aws s3api put-bucket-notification-configuration 

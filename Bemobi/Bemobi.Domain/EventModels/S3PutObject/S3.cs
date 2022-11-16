@@ -10,7 +10,6 @@ namespace Bemobi.Domain.Events.S3PutObject
         public string? ConfigurationId { get; set; }
         [JsonProperty("bucket")]
         public Bucket? Bucket { get; set; }
-
         [JsonProperty("object")]
         public Object? Object { get; set; }
     }
