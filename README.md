@@ -237,13 +237,13 @@ CREATE TABLE `files` (
 ```
 
 ### Projeto de testes
-Existe o projeto de testes no qual está dividido em 2 critérios:
+O projeto de testes está dividido em 2 critérios:
 
-* Unitário
+* Unitário<br>
 Testa a lógica de negócio da unidade. <br>
-Abordagem: aplicação faz a leitura de um mock e testa cenários de processamento, os repositório são mockados de acordo com o padrão esperado.
+Abordagem: aplicação faz a leitura de um mock e testa cenários de processamento, os repositório são mockados de acordo com o padrão esperado.<br>
 
-* Integração
-Testa toda a integração, para isso é necessário utilizar o docker para levantar os containers.
+* Integração<br>
+Testa toda a integração, para isso é necessário utilizar o docker para levantar os containers.<br>
 Abordagem: aplicação instacia o docker, após isso, um arquivo de sample é enviado para o bucket do s3. No qual, acionará uma notificação do Tópico, que por sua vez enviará a mensagem para a fila. A aplicação fará o consumo dessa mensagem e atualização na base de dados.<br>
 ![image](https://user-images.githubusercontent.com/32820622/202044051-6804908a-dfce-4a7c-a903-88ad26bbc644.png)
